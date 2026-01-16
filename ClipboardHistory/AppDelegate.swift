@@ -112,14 +112,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
         }
     }
     
-    func updateMenu() {
+    func updateMenu(searchString: String) {
         while statusMenu.items.count > 2 {
             statusMenu.removeItem(at: 2)
         }
 
         var displayingHistory: [String] = []
-        if searchField.stringValue != "" {
-            displayingHistory = clipboardHistory.filter { $0.lowercased().contains(searchField.stringValue.lowercased()) }
+        if searchString != "" {
+            displayingHistory = clipboardHistory.filter { $0.lowercased().contains(searchString.lowercased()) }
         }else{
             displayingHistory = Array(clipboardHistory.prefix(displayingNumber))
         }
@@ -222,7 +222,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
     @objc func showMenu() {
         if let button = statusItem.button {
             searchField.stringValue = ""
-            updateMenu()
+            updateMenu(searchString: "")
             
             statusItem.menu = statusMenu
             button.performClick(nil)
@@ -235,7 +235,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
     }
     
     func controlTextDidChange(_ obj: Notification) {
-        updateMenu()
+        updateMenu(searchString: searchField.stringValue)
     }
     
     func startMonitoringClipboard() {
