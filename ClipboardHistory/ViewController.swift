@@ -6,6 +6,14 @@ class ViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let formatter = RememberingNumberTextField.formatter as? NumberFormatter {
+            formatter.usesGroupingSeparator = false
+        }
+        if let formatter = DisplayingNumberTextField.formatter as? NumberFormatter {
+            formatter.usesGroupingSeparator = false
+        }
+        
         if let appDelegate = NSApp.delegate as? AppDelegate {
             RememberingNumberTextField.stringValue = "\(appDelegate.rememberingNumber)"
             DisplayingNumberTextField.stringValue = "\(appDelegate.displayingNumber)"
@@ -19,7 +27,7 @@ class ViewController: NSViewController {
 
     
     @IBAction func UpdateRememberingNumber(_ sender: Any) {
-        if let number = Int(RememberingNumberTextField.stringValue.replacingOccurrences(of: ",", with: "")) {
+        if let number = Int(RememberingNumberTextField.stringValue) {
             if let appDelegate = NSApp.delegate as? AppDelegate {
                 let originalNumber = appDelegate.rememberingNumber
                 appDelegate.rememberingNumber = number
@@ -31,7 +39,7 @@ class ViewController: NSViewController {
     }
     
     @IBAction func UpdateDisplayingNumber(_ sender: Any) {
-        if let number = Int(DisplayingNumberTextField.stringValue.replacingOccurrences(of: ",", with: "")){
+        if let number = Int(DisplayingNumberTextField.stringValue){
             if let appDelegate = NSApp.delegate as? AppDelegate {
                 appDelegate.displayingNumber = number
             }
