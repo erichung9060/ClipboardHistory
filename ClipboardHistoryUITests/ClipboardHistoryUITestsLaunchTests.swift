@@ -1,13 +1,13 @@
 //
-//  CopyBoardUITestsLaunchTests.swift
-//  CopyBoardUITests
+//  ClipboardHistoryUITestsLaunchTests.swift
+//  ClipboardHistoryUITests
 //
 //  Created by 洪睿廷 on 2024/9/6.
 //
 
 import XCTest
 
-final class CopyBoardUITestsLaunchTests: XCTestCase {
+final class ClipboardHistoryUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

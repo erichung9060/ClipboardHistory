@@ -1,14 +1,14 @@
 //
-//  CopyBoardTests.swift
-//  CopyBoardTests
+//  ClipboardHistoryTests.swift
+//  ClipboardHistoryTests
 //
 //  Created by 洪睿廷 on 2024/9/6.
 //
 
 import XCTest
-@testable import CopyBoard
+@testable import ClipboardHistory
 
-final class CopyBoardTests: XCTestCase {
+final class ClipboardHistoryTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
