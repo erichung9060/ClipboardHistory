@@ -1,7 +1,7 @@
 import Cocoa
 
 @main
-class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate, NSWindowDelegate {
     private struct Keys {
         static let displayingNumber = "displayingNumber"
         static let rememberingNumber = "rememberingNumber"
@@ -37,6 +37,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
     var lastChangeCount: Int = NSPasteboard.general.changeCount
 
     var timer: Timer?
+    lazy var preferencesWindowController: NSWindowController? = {
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+        return storyboard.instantiateController(withIdentifier: "PreferencesWindowController") as? NSWindowController
+    }()
     
     let fileManager = FileManager.default
     var historyFileURL: URL {
@@ -221,10 +225,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
     }
     
     @objc func showPreferences() {
-        let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        let preferencesWindowController = storyboard.instantiateController(withIdentifier: "PreferencesWindowController") as? NSWindowController
         preferencesWindowController?.showWindow(self)
-        NSApp.activate(ignoringOtherApps: true)
+        
+        DispatchQueue.main.async {
+            NSApp.activate(ignoringOtherApps: true)
+            
+            if let window = self.preferencesWindowController?.window {
+                if window.isMiniaturized {
+                    window.deminiaturize(nil)
+                }
+                window.makeKeyAndOrderFront(nil)
+            }
+        }
     }
     
     @objc func showMenu() {
