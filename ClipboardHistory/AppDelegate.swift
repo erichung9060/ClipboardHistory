@@ -2,30 +2,35 @@ import Cocoa
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
+    private struct Keys {
+        static let displayingNumber = "displayingNumber"
+        static let rememberingNumber = "rememberingNumber"
+    }
+
     var displayingNumber: Int {
         get {
-            return UserDefaults.standard.object(forKey: "displayingNumber") as? Int ?? 100
+            return UserDefaults.standard.object(forKey: Keys.displayingNumber) as? Int ?? 100
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: "displayingNumber")
+            UserDefaults.standard.set(newValue, forKey: Keys.displayingNumber)
         }
     }
     
     var rememberingNumber: Int {
         get {
-            return UserDefaults.standard.object(forKey: "rememberingNumber") as? Int ?? 1000
+            return UserDefaults.standard.object(forKey: Keys.rememberingNumber) as? Int ?? 1000
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: "rememberingNumber")
+            UserDefaults.standard.set(newValue, forKey: Keys.rememberingNumber)
         }
     }
     
     let recordInterval = 0.5
     let menuItemMaxWidth = 300.0
     
-    var statusItem: NSStatusItem! = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-    var searchField: NSTextField! = NSTextField()
-    var statusMenu: NSMenu! = NSMenu()
+    var statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    var searchField = NSTextField()
+    var statusMenu = NSMenu()
 
     var clipboardHistory: [String] = []
     
@@ -124,11 +129,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
             displayingHistory = Array(clipboardHistory.prefix(displayingNumber))
         }
         
-        for Word in displayingHistory {
-            let word = truncateString(input: Word)
+        for item in displayingHistory {
+            let truncatedText = truncateString(input: item)
             
-            let menuItem = NSMenuItem(title: word, action: #selector(copyToClipboard(_:)), keyEquivalent: "")
-            menuItem.representedObject = Word
+            let menuItem = NSMenuItem(title: truncatedText, action: #selector(copyToClipboard(_:)), keyEquivalent: "")
+            menuItem.representedObject = item
             statusMenu.addItem(menuItem)
         }
         
@@ -142,6 +147,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
     
 
     func truncateString(input: String) -> String {
+        let safeInput = input.map { String($0) }.prefix(100).joined()
+        
         let font = NSFont.systemFont(ofSize: 16)
         let attributes: [NSAttributedString.Key: Any] = [.font: font]
 
@@ -149,7 +156,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
         var currentWidth: CGFloat = 0
         let ellipsisWidth = (" ..." as NSString).size(withAttributes: attributes).width
 
-        for character in input {
+        for character in safeInput {
             let charStr = String(character) as NSString
             let charWidth = charStr.size(withAttributes: attributes).width
 
@@ -188,8 +195,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
     }
 
     func checkClipBoardMaximum(){
-        while(clipboardHistory.count > rememberingNumber){
-            clipboardHistory.removeLast()
+        let excessDetails = clipboardHistory.count - rememberingNumber
+        if excessDetails > 0 {
+            clipboardHistory.removeLast(excessDetails)
         }
     }
     
@@ -198,7 +206,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
         
         clipboardHistory.removeAll { $0 == itemToCopy }
         clipboardHistory.insert(itemToCopy, at: 0)
-
+        
         lastChangeCount += 1
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
