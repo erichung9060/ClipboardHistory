@@ -45,6 +45,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
         NSApp.setActivationPolicy(.accessory)
         
         createApplicationSupportDirectory()
+        loadHistoryFromFile()
         
         // set menu button
         if let button = statusItem.button {
@@ -106,7 +107,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
         do {
             let data = try JSONSerialization.data(withJSONObject: clipboardHistory)
             try data.write(to: historyFileURL)
-            clipboardHistory.removeAll()
         } catch {
             print("Error saving history: \(error)")
         }
@@ -174,8 +174,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
         let pasteboard = NSPasteboard.general
         if pasteboard.changeCount != lastChangeCount {
             lastChangeCount = pasteboard.changeCount
-            
-            loadHistoryFromFile()
 
             guard let copiedString = pasteboard.string(forType: .string) else { return }
             clipboardHistory.insert(copiedString, at: 0)
@@ -185,7 +183,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
         }
     }
     func updateRememberingNumber(){
-        loadHistoryFromFile()
         checkClipBoardMaximum()
         moveHistoryToFile()
     }
@@ -206,10 +203,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
         pasteboard.setString(itemToCopy, forType: .string)
+        
+        moveHistoryToFile()
     }
     
     @objc func clearClipboardHistory() {
         clipboardHistory.removeAll()
+        moveHistoryToFile()
     }
     
     @objc func showPreferences() {
@@ -221,16 +221,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
     
     @objc func showMenu() {
         if let button = statusItem.button {
-            loadHistoryFromFile()
-            
             searchField.stringValue = ""
             updateMenu()
             
             statusItem.menu = statusMenu
             button.performClick(nil)
             statusItem.menu = nil
-            
-            moveHistoryToFile()
 
             while statusMenu.items.count > 2 {
                 statusMenu.removeItem(at: 2)
