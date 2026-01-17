@@ -184,6 +184,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate, NSWindo
         if displayingHistory.count != 0 { 
             statusMenu.addItem(NSMenuItem.separator()) 
         }
+
         statusMenu.addItem(NSMenuItem(title: "Clear All", action: #selector(clearClipboardHistory), keyEquivalent: "c"))
         statusMenu.addItem(NSMenuItem(title: "Preferences", action: #selector(showPreferences), keyEquivalent: ","))
         statusMenu.addItem(NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q"))
@@ -274,15 +275,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate, NSWindo
         if let button = statusItem.button {
             NSApp.activate(ignoringOtherApps: true)
             searchField.stringValue = ""
-            updateMenu(searchString: "")
+            updateMenu(searchString: searchField.stringValue)
             
             statusItem.menu = statusMenu
             button.performClick(nil)
             statusItem.menu = nil
-
-            while statusMenu.items.count > 2 {
-                statusMenu.removeItem(at: 2)
-            }
         }
     }
     
