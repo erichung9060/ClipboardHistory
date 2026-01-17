@@ -53,6 +53,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate, NSWindo
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSApp.setActivationPolicy(.accessory)
         
+        // Setup Edit menu programmatically to avoid storyboard inconsistencies
+        setupEditMenu()
+        
         createApplicationSupportDirectory()
         loadHistoryFromFile()
         
@@ -82,6 +85,43 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate, NSWindo
         statusMenu.addItem(NSMenuItem.separator())
         
         startMonitoringClipboard()
+    }
+    
+    func setupEditMenu() {
+        // Create Edit menu
+        let editMenu = NSMenu(title: "Edit")
+        
+        // Add Cut
+        let cutItem = NSMenuItem(title: "Cut", action: #selector(NSText.cut(_:)), keyEquivalent: "x")
+        editMenu.addItem(cutItem)
+        
+        // Add Copy
+        let copyItem = NSMenuItem(title: "Copy", action: #selector(NSText.copy(_:)), keyEquivalent: "c")
+        editMenu.addItem(copyItem)
+        
+        // Add Paste
+        let pasteItem = NSMenuItem(title: "Paste", action: #selector(NSText.paste(_:)), keyEquivalent: "v")
+        editMenu.addItem(pasteItem)
+        
+        // Add Select All
+        let selectAllItem = NSMenuItem(title: "Select All", action: #selector(NSText.selectAll(_:)), keyEquivalent: "a")
+        editMenu.addItem(selectAllItem)
+        
+        // Add separator
+        editMenu.addItem(NSMenuItem.separator())
+        
+        // Add Close Window
+        let closeItem = NSMenuItem(title: "Close", action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w")
+        editMenu.addItem(closeItem)
+        
+        // Create Edit menu item and add it to main menu
+        let editMenuItem = NSMenuItem(title: "Edit", action: nil, keyEquivalent: "")
+        editMenuItem.submenu = editMenu
+        
+        // Add to main menu
+        if let mainMenu = NSApp.mainMenu {
+            mainMenu.addItem(editMenuItem)
+        }
     }
     
     func createApplicationSupportDirectory() {
