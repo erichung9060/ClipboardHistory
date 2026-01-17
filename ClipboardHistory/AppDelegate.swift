@@ -267,17 +267,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate, NSWindo
     
     @objc func showPreferences() {
         preferencesWindowController?.showWindow(self)
-        
-        DispatchQueue.main.async {
-            NSApp.activate(ignoringOtherApps: true)
-            
-            if let window = self.preferencesWindowController?.window {
-                if window.isMiniaturized {
-                    window.deminiaturize(nil)
-                }
-                window.makeKeyAndOrderFront(nil)
-            }
-        }
+        NSApp.activate(ignoringOtherApps: true)
     }
     
     @objc func showMenu() {
