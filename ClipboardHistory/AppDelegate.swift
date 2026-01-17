@@ -272,6 +272,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate, NSWindo
     
     @objc func showMenu() {
         if let button = statusItem.button {
+            NSApp.activate(ignoringOtherApps: true)
             searchField.stringValue = ""
             updateMenu(searchString: "")
             
