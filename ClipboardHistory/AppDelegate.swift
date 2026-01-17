@@ -57,7 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate, NSWindo
         setupEditMenu()
         
         createApplicationSupportDirectory()
-        loadHistoryFromFile()
+        loadHistory()
         
         // set menu button
         if let button = statusItem.button {
@@ -135,7 +135,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate, NSWindo
         }
     }
     
-    func loadHistoryFromFile() {
+    func loadHistory() {
         guard fileManager.fileExists(atPath: historyFileURL.path) else {
             clipboardHistory = []
             return
@@ -152,7 +152,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate, NSWindo
         }
     }
     
-    func moveHistoryToFile() {
+    func saveHistory() {
         do {
             let data = try JSONSerialization.data(withJSONObject: clipboardHistory)
             try data.write(to: historyFileURL)
@@ -230,12 +230,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate, NSWindo
             clipboardHistory.insert(copiedString, at: 0)
             checkClipBoardMaximum()
             
-            moveHistoryToFile()
+            saveHistory()
         }
     }
+    
     func updateRememberingNumber(){
         checkClipBoardMaximum()
-        moveHistoryToFile()
+        saveHistory()
     }
 
     func checkClipBoardMaximum(){
@@ -256,12 +257,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate, NSWindo
         pasteboard.clearContents()
         pasteboard.setString(itemToCopy, forType: .string)
         
-        moveHistoryToFile()
+        saveHistory()
     }
     
     @objc func clearClipboardHistory() {
         clipboardHistory.removeAll()
-        moveHistoryToFile()
+        saveHistory()
     }
     
     @objc func showPreferences() {
