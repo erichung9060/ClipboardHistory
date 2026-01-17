@@ -313,6 +313,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate, NSWindo
     }
 
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
-        return true
+        return false
     }
 }
