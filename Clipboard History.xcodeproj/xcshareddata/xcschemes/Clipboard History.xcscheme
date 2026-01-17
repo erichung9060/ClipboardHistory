@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2C9CB4272C8AA719000410C6"
-               BuildableName = "ClipboardHistory.app"
-               BlueprintName = "ClipboardHistory"
-               ReferencedContainer = "container:ClipboardHistory.xcodeproj">
+               BuildableName = "Clipboard History.app"
+               BlueprintName = "Clipboard History"
+               ReferencedContainer = "container:Clipboard History.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -36,9 +36,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2C9CB4382C8AA71A000410C6"
-               BuildableName = "ClipboardHistoryTests.xctest"
-               BlueprintName = "ClipboardHistoryTests"
-               ReferencedContainer = "container:ClipboardHistory.xcodeproj">
+               BuildableName = "Clipboard HistoryTests.xctest"
+               BlueprintName = "Clipboard HistoryTests"
+               ReferencedContainer = "container:Clipboard History.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2C9CB4422C8AA71A000410C6"
-               BuildableName = "ClipboardHistoryUITests.xctest"
-               BlueprintName = "ClipboardHistoryUITests"
-               ReferencedContainer = "container:ClipboardHistory.xcodeproj">
+               BuildableName = "Clipboard HistoryUITests.xctest"
+               BlueprintName = "Clipboard HistoryUITests"
+               ReferencedContainer = "container:Clipboard History.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -69,9 +69,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2C9CB4272C8AA719000410C6"
-            BuildableName = "ClipboardHistory.app"
-            BlueprintName = "ClipboardHistory"
-            ReferencedContainer = "container:ClipboardHistory.xcodeproj">
+            BuildableName = "Clipboard History.app"
+            BlueprintName = "Clipboard History"
+            ReferencedContainer = "container:Clipboard History.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -86,9 +86,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2C9CB4272C8AA719000410C6"
-            BuildableName = "ClipboardHistory.app"
-            BlueprintName = "ClipboardHistory"
-            ReferencedContainer = "container:ClipboardHistory.xcodeproj">
+            BuildableName = "Clipboard History.app"
+            BlueprintName = "Clipboard History"
+            ReferencedContainer = "container:Clipboard History.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
